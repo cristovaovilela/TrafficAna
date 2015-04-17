@@ -42,6 +42,14 @@ RooJun = "Roosevelt+Ave+%26+Junction+Blvd,+Queens,+NY+11368"
 # ====================
 AusCont = "Austin+St+%26+Continental+Ave,+Forest+Hills,+NY+11375"
 
+# LIE HOV lanes
+# ====================
+hovWgoingE = "40.762898,-73.727901"
+hovWgoingW = "40.762965,-73.728028"
+
+hovEgoingE = "40.818578,-73.061615"
+hovEgoingW = "40.819116,-73.061706"
+
 listOfRoutes = [ ["MorningsideToSBU",     Ams23rd,           StonyBrook       , 840   , 'East'],
                  ["SBUToMorningside",     StonyBrook,        Ams23rd          , 840   , 'West'],
                  ["HarlemToSBU",          Adm116th,          StonyBrook       , 600   , 'East'],
@@ -63,4 +71,6 @@ listOfRoutes = [ ["MorningsideToSBU",     Ams23rd,           StonyBrook       , 
                  ["CoronaToSBU",          RooJun,            StonyBrook       , 807   , 'East'],
                  ["SBUToCorona",          StonyBrook,        RooJun           , 807   , 'West'],
                  ["ForestHillsToSBU",     AusCont,           StonyBrook       , 801   , 'East'],
-                 ["SBUToForestHills",     StonyBrook,        AusCont          , 801   , 'West'] ]
+                 ["SBUToForestHills",     StonyBrook,        AusCont          , 801   , 'West'],
+                 ["LIE_HOV_East",         hovWgoingE,        hovEgoingE       , 1     , 'LIEE'],
+                 ["LIE_HOV_West",         hovEgoingW,        hovWgoingW       , 1     , 'LIEW']]
