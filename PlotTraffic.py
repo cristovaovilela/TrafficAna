@@ -150,9 +150,11 @@ def drawShortestTimeInTraffic( routeList , direction , fileName) :
    
 if __name__ == '__main__' :
 
+    # Weird offset. Empirically determined. Only interested in time, for plotting.
     da = TDatime(2015,04,16,6,00,00);
     gStyle.SetTimeOffset(da.Convert());
     gStyle.SetOptStat(0)
+    gROOT.SetBatch()
 
     drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'West', fileName='/home/cvilela/public_html/CommutesWest.pdf')    
 
