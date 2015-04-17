@@ -8,6 +8,7 @@ import re
 import datetime
 from array import array
 from subprocess import call
+from RouteList import *
 
 from ROOT import TFile, TTree, gROOT
 
@@ -122,75 +123,6 @@ if __name__ == '__main__' :
     
   noMilesPattern = '\s*(?P<distance>[^mi\s]*).*'
   noMilesP = re.compile(noMilesPattern)
-
-
-  # Define the list of routes to probe
-  # Coordinates for Stony Brook Physics parking lot
-  StonyBrook = '40.9145565,-73.1271978'
-
-
-  # Morningside / Harlem / East Harlem
-  # ====================
-  # Amsterdam and 23rd
-  Ams23rd = "Amsterdam+Ave+%26+W+123rd+St,+New+York,+NY+10027"
-  # Adam Clayton and W 116th
-  Adm116th = "Adam+Clayton+Powell+Jr+Blvd+%26+W+116th+St,+New+York,+NY+10026"
-  # 3rd Avenue and E 111th
-  Third111th = "3rd+Ave+%26+E+111th+St,+New+York,+NY+10029"
-  # Lexington and E 103
-  Lex103rd = "Lexington+Ave+%26+E+103rd+St,+New+York,+NY+10029"
-
-  # Astoria
-  # ====================
-  # Broadway and Crescent
-  BroCre = "Broadway+%26+Crescent+St,+Astoria,+NY+11106"
-  # Broadway and Newtown rd
-  BroNew = "Broadway+%26+Newtown+Rd,+Queens,+NY+11377"
-  
-  # Jackson Heights
-  # ====================
-  # 32nd Ave and 80th
-  ThirtySecond80th = "32nd+Ave+%26+80th+St,+East+Elmhurst,+NY+11370"
-
-  # Woodside
-  # ====================
-  Roo63rd = "Roosevelt+Ave+%26+63rd+St,+Woodside,+NY+11377"
-  
-  # Elmhurst
-  # ====================
-  Woo77th = "Woodside+Ave+%26+77th+St,+Elmhurst,+NY+11373"
-  
-  # Corona
-  # ====================
-  RooJun = "Roosevelt+Ave+%26+Junction+Blvd,+Queens,+NY+11368"
-
-  # Forest Hills
-  # ====================
-  AusCont = "Austin+St+%26+Continental+Ave,+Forest+Hills,+NY+11375"
-
-  listOfRoutes = [ ["MorningsideToSBU",     Ams23rd,           StonyBrook      ],
-                   ["SBUToMorningside",     StonyBrook,        Ams23rd         ],
-                   ["HarlemToSBU",          Adm116th,          StonyBrook      ],
-                   ["SBUToHarlem",          StonyBrook,        Adm116th        ],
-                   ["EastHarlemToSBU",      Third111th,        StonyBrook      ],
-                   ["SBUTpEastHarlem",      StonyBrook,        Third111th      ],
-                   ["YorkvilleToSBU",       Lex103rd,          StonyBrook      ],
-                   ["SBUToYorkville",       StonyBrook,        Lex103rd        ],
-                   ["Astoria1ToSBU",        BroCre,            StonyBrook      ],
-                   ["SBUToAstoria1",        StonyBrook,        BroCre          ],
-                   ["Astoria2ToSBU",        BroNew,            StonyBrook      ],
-                   ["SBUToAstoria2",        StonyBrook,        BroNew          ],
-                   ["JackToSBU",            ThirtySecond80th,  StonyBrook      ],
-                   ["SBUToJack",            StonyBrook,        ThirtySecond80th], 
-                   ["WoodsideToSBU",        Roo63rd,           StonyBrook      ],
-                   ["SBUToWoodside",        StonyBrook,        Roo63rd         ],
-                   ["ElmhurstToSBU",        Woo77th,           StonyBrook      ],
-                   ["SBUToElmhurst",        StonyBrook,        Woo77th         ],
-                   ["CoronaToSBU",          RooJun,            StonyBrook      ],
-                   ["SBUToCorona",          StonyBrook,        RooJun          ],
-                   ["ForestHillsToSBU",     AusCont,           StonyBrook      ],
-                   ["SBUToForestHills",     StonyBrook,        AusCont         ] ]
-                   
 
   for route in listOfRoutes :
     getDataFillTTree( ttreeName = route[0], start = route[1], end = route[2] )
