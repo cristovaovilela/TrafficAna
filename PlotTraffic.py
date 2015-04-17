@@ -50,6 +50,7 @@ def drawShortestTimeInTraffic( routeList , direction , fileName) :
         histo          = TH2D(ttreeName+'_hist', ttreeName, 36, 0, 24*60*60, 190, 0, 190)
         histoNoTraffic = TH2D(ttreeName+'_histNoTraffic', ttreeName, 36, 0, 24*60*60, 190, 0, 190)
         histoDiff      = TH1D(ttreeName+'_histDiff', ttreeName, 36, 0, 24*60*60)
+        histoDiff.Sumw2()
         nEntries = inTree.GetEntries()
     
         year = numpy.zeros(1, dtype=int)
@@ -110,15 +111,23 @@ def drawShortestTimeInTraffic( routeList , direction , fileName) :
 
         histoDiff.SetLineColor(route[3])
         histoDiff.SetMarkerSize(0)
-        
+
+        routeMax = 160.
+        routeMin = 45.
+                
+        if  route[4] == 'LIEE' or route[4] == 'LIEW'  :
+            routeMax = 80.
+            routeMin = 20.0001
+
+
         if isFirst :
             isFirst=False
             histprof.GetXaxis().SetTimeDisplay(1);
             histprof.GetXaxis().SetTimeFormat("%H:%M");        
             histoDiff.GetXaxis().SetTimeDisplay(1);
             histoDiff.GetXaxis().SetTimeFormat("%H:%M");        
-            histprof.SetMinimum(45.)
-            histprof.SetMaximum(160.)
+            histprof.SetMinimum(routeMin)
+            histprof.SetMaximum(routeMax)
             histprof.SetTitle("Commute "+route[4]+";Time of departure;Duration in Traffic [minutes]")
             histoDiff.SetMinimum(0.)
             histoDiff.SetMaximum(59.9)
@@ -140,36 +149,23 @@ def drawShortestTimeInTraffic( routeList , direction , fileName) :
         histoDiff.DrawCopy("SAMEHISTL][")
         
 
-#        histprofNoTraffic.Add(histprof, -1)
-#        histprofNoTraffic.SetMinimum(0.)
-#        histprofNoTraffic.SetMaximum(60.)
-#        histprofNoTraffic.GetYaxis().SetTitle("#Deltat (Traffic - NoTraffic) [minutes]")
-
-#    lowerPad.cd()
-#        if isFirst :
-#            isFirst = False
-#            histprofNoTraffic.DrawCopy("HIST")
-#        else :
-#            histprofNoTraffic.DrawCopy("SAMEHIST")
-#        histprofNoTraffic.DrawCopy("SAMEHISTL][")
-
  #   upperPad.cd()
     upperPad.cd()
     leg.Draw("SAME")
 
     # Draw some arrows
-    lin = TLine(12*60*60, 45., 12*60*60, 130.)
+    lin = TLine(12*60*60, routeMin, 12*60*60, routeMin+(routeMax-routeMin)*.75)
     lin.SetLineStyle(2)
     lin.SetLineColor(632)
     lin.Draw("SAME")
 
-    if direction == 'West' :
-        arr = TArrow(12*60*60, 130., 12*60*60+12*60*60, 130., 2., ">")
+    if direction == 'West' or direction == 'LIEW' :
+        arr = TArrow(12*60*60, routeMin+(routeMax-routeMin)*.75, 12*60*60+12*60*60, routeMin+(routeMax-routeMin)*.75, 2., ">")
         arr.SetLineStyle(2)
         arr.SetLineColor(632)
         arr.Draw("SAME")
-    elif direction == 'East' :
-        arr = TArrow(12*60*60, 130., 12*60*60-12*60*60, 130., 2., ">")
+    elif direction == 'East' or direction == 'LIEE':
+        arr = TArrow(12*60*60, routeMin+(routeMax-routeMin)*.75, 12*60*60-12*60*60, routeMin+(routeMax-routeMin)*.75, 2., ">")
         arr.SetLineStyle(2)
         arr.SetLineColor(632)
         arr.Draw("SAME")
@@ -192,6 +188,10 @@ if __name__ == '__main__' :
     gStyle.SetTitleX(0.2)
     gROOT.SetBatch()
 
-    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'West', fileName='/home/cvilela/public_html/CommutesWest.pdf')    
-
-    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'East', fileName='/home/cvilela/public_html/CommutesEast.pdf')    
+    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'West', fileName='/home/cvilela/public_html/TrafficAna/CommutesWest.pdf')    
+                                                                                                              
+    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'East', fileName='/home/cvilela/public_html/TrafficAna/CommutesEast.pdf')    
+                                                                                                              
+    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'LIEE', fileName='/home/cvilela/public_html/TrafficAna/LIE_HOV_East.pdf')    
+                                                                                                              
+    drawShortestTimeInTraffic(routeList=listOfRoutes, direction = 'LIEW', fileName='/home/cvilela/public_html/TrafficAna/LIE_HOV_West.pdf')    
